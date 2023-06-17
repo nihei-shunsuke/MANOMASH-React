@@ -33,6 +33,11 @@ body {
     margin: 40px auto;   /* 中央寄せ */
 }
 
+.opacity-btn:hover {
+    opacity: 0.75;
+    transition: all 0.3s;
+}
+
 .form-item {
     margin-top: 25px;
     display: flex;
@@ -76,4 +81,3 @@ body {
     color:  #E9725D;
     margin: 20px;
 }
-

@@ -1,3 +1,4 @@
+import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
@@ -5,7 +6,7 @@ const Gallery = () => {
     return (
         <div>
             <Header />
-            <p>Gallery</p>
+            <h1>Gallery</h1>
             <Footer />
         </div>
     )

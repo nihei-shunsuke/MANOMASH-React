@@ -1,3 +1,4 @@
+import React from 'react';
 import '../css/Footer.css';
 import ManomashLogo from "../images/MANOMASH-logo.PNG";
 const Footer = () => {
