@@ -1,25 +1,53 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import {Route, Routes, BrowserRouter} from 'react-router-dom';
+import TopPage from './pages/TopPage';
+import Gallery from './pages/Gallery';
+import Login from './pages/Login';
+import MyPage from './pages/MyPage';
+import Profile from './pages/Profile';
+import ProfileAdd from './pages/ProfileAdd';
+import ProfileEdit from './pages/ProfileEdit';
+import SignUp from './pages/SignUp';
 
 function App() {
+  const [userData, setUserData] = useState({
+    userId: '',
+    userName: '',
+    introduce: '',
+  });
+  const [oshiDataList, setOshiDataList] = useState([])
+  useEffect(() => {
+    const url = "http://localhost:8080/gallery";
+    const headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json charset=utf-8'
+    }
+    fetch(url, {
+        method: "GET",
+        cache: "no-cache",
+        headers: headers,
+    })
+    .then(res => res.json())
+    .then(data => {
+      setOshiDataList(data)
+      console.log(data)
+    })
+}, []);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<TopPage/>} />
+        <Route path='/gallery' element={<Gallery oshiDataList={oshiDataList} setOshiDataList={setOshiDataList}/>} />
+        <Route path='/login' element={<Login setUserData={setUserData}/>} />
+        <Route path='/mypage' element={<MyPage/>} />
+        <Route path='/profile' element={<Profile/>} />
+        <Route path='/profileadd' element={<ProfileAdd/>} />
+        <Route path='/profileedit' element={<ProfileEdit/>} />
+        <Route path='/signup' element={<SignUp/>} />
+      </Routes>
+    </BrowserRouter>
+
   );
-}
+};
 
 export default App;
