@@ -8,7 +8,7 @@ const DisplayLogInResult = async (email, password) => {
         password: password
     }
     if (obj.email === '' | obj.password === '') {
-        return 1;
+        return [1, ''];
     } 
 
     const body = JSON.stringify(obj)
@@ -23,17 +23,16 @@ const DisplayLogInResult = async (email, password) => {
       headers: headers,
       body: body,
     });
-    console.log(response)
+
     const logInInfo = await response.json();
     console.log(logInInfo);
-    console.log("status_flg",logInInfo.status)
-    console.log(logInInfo.status)
+    console.log("status_flg",logInInfo.status);
 
     if (logInInfo.status === 0) {
-        return 2;
+        return [2, logInInfo];
     } else if (logInInfo.status === 1) {
         Cookies.set('uid', logInInfo.id)
-        return 3;
+        return [3, logInInfo];
     }
 }
 

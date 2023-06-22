@@ -6,7 +6,7 @@ import '../css/Account.css';
 import DisplayLogInResult from '../services/login';
 
 
-const Login = () => {
+const Login = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [formStatus, setFormStatus] = useState('');
@@ -16,8 +16,7 @@ const Login = () => {
         event.preventDefault();
         console.log('押された');
         const result = await DisplayLogInResult(email, password)
-        console.table('result:',result)
-        switch (result) {
+        switch (result[0]) {
             case 1:
                 setFormStatus('未入力の項目があります。');
                 console.log('結果1');
@@ -28,6 +27,12 @@ const Login = () => {
                 break;
             case 3:
                 console.log('結果3');
+                console.log(result[1]);
+                props.setUserData({
+                    userId: result[1].user_id,
+                    userName: result[1].use_name,
+                    introduce: result[1].introduce,
+                })
                 navigate('/gallery');
                 break;
             default:
