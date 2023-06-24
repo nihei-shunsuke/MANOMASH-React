@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import {Route, Routes, BrowserRouter} from 'react-router-dom';
 import TopPage from './pages/TopPage';
 import Gallery from './pages/Gallery';
@@ -9,12 +9,15 @@ import ProfileAdd from './pages/ProfileAdd';
 import ProfileEdit from './pages/ProfileEdit';
 import SignUp from './pages/SignUp';
 
+export const UserContext = createContext();
+
 function App() {
   const [userData, setUserData] = useState({
     userId: '',
     userName: '',
     introduce: '',
   });
+
   const [oshiDataList, setOshiDataList] = useState([])
   useEffect(() => {
     const url = "http://localhost:8080/gallery";
@@ -32,20 +35,23 @@ function App() {
       setOshiDataList(data)
       console.log(data)
     })
-}, []);
+  }, []);
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<TopPage/>} />
-        <Route path='/gallery' element={<Gallery oshiDataList={oshiDataList} setOshiDataList={setOshiDataList}/>} />
-        <Route path='/login' element={<Login setUserData={setUserData}/>} />
-        <Route path='/mypage' element={<MyPage/>} />
-        <Route path='/profile' element={<Profile/>} />
-        <Route path='/profileadd' element={<ProfileAdd/>} />
-        <Route path='/profileedit' element={<ProfileEdit/>} />
-        <Route path='/signup' element={<SignUp/>} />
-      </Routes>
-    </BrowserRouter>
+    <UserContext.Provider value={{userData:userData,setUserData:setUserData}}>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<TopPage/>} />
+          <Route path='/gallery' element={<Gallery oshiDataList={oshiDataList} setOshiDataList={setOshiDataList}/>} />
+          <Route path='/login' element={<Login setUserData={setUserData}/>} />
+          <Route path='/mypage' element={<MyPage/>} />
+          <Route path='/profile' element={<Profile/>} />
+          <Route path='/profileadd' element={<ProfileAdd/>} />
+          <Route path='/profileedit' element={<ProfileEdit/>} />
+          <Route path='/signup' element={<SignUp/>} />
+        </Routes>
+      </BrowserRouter>
+    </UserContext.Provider>
 
   );
 };
